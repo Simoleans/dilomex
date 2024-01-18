@@ -1,10 +1,7 @@
 <template lang="">
     <DataTable :value="data" tableStyle="min-width: 9rem" :rowsPerPageOptions="[4,10,20]"  responsiveLayout="scroll" breakpoint="100px" :paginator="true" :rows="10" paginatorTemplate="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
         currentPageReportTemplate="Ver {first} a {last} de {totalRecords}">
-        <Column field="code" header="Code"></Column>
-        <Column field="name" header="Razon Social"></Column>
-        <Column field="rfc" header="RFC"></Column>
-        <Column field="actions" header="Acciones"></Column>
+        <Column field="name" header="Tipo de cliente"></Column>
         <Column field="actions" header="Acciones">
             <template #body="{data}">
                 <div class="flex justify-between gap-4">
@@ -27,8 +24,6 @@
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';   // optional
-import Row from 'primevue/row';
 
 const props = defineProps({
     data: Array

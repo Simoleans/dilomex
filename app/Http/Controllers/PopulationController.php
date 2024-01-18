@@ -13,7 +13,7 @@ class PopulationController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Population/Index', [
+        return Inertia::render('Catalogo/Conceptos/Population/Index', [
             'data' => Population::orderBy('id', 'desc')->get()
         ]);
     }

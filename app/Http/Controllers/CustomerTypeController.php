@@ -13,7 +13,7 @@ class CustomerTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('CustomerType/Index', [
+        return Inertia::render('Catalogo/Conceptos/CustomerType/Index', [
             'data' => CustomerType::orderBy('id', 'desc')->get()
         ]);
     }

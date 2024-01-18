@@ -13,7 +13,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Location/Index', [
+        return Inertia::render('Catalogo/Conceptos/Location/Index', [
             'data' => Location::orderBy('id','DESC')->get()
         ]);
     }

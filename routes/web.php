@@ -57,4 +57,10 @@ Route::resource('populations', 'App\Http\Controllers\PopulationController');
 //locations
 Route::resource('locations', 'App\Http\Controllers\LocationController');
 
+//invoice status
+Route::resource('invoice-status', 'App\Http\Controllers\InvoiceStatusController');
+
+//rejection codes
+Route::resource('rejection-codes', 'App\Http\Controllers\RejectionCodeController');
+
 require __DIR__ . '/auth.php';

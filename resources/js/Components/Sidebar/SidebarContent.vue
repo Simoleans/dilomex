@@ -73,7 +73,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         <hr>
         <SidebarCollapsible
             title="Conceptos"
-            :active="route().current('customer-type.*') || route().current('invoice-type.*') || route().current('distributions.*') || route().current('populations.*') || route().current('locations.*')"
+            :active="route().current('customer-type.*') || route().current('invoice-type.*') || route().current('distributions.*') || route().current('populations.*') || route().current('locations.*') || route().current('invoice-status.*') || route().current('rejection-codes.*')"
         >
             <template #icon>
                 <i class="pi pi-book"></i>
@@ -110,6 +110,20 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 :href="route('locations.index')"
                 title="Localidad"
                 :active="route().current('locations.*')"
+            />
+
+            <!-- invoice status -->
+            <SidebarCollapsibleItem
+                :href="route('invoice-status.index')"
+                title="Estatus factura"
+                :active="route().current('invoice-status.*')"
+            />
+
+            <!-- rejection code -->
+            <SidebarCollapsibleItem
+                :href="route('rejection-codes.index')"
+                title="Codigos de rechazo"
+                :active="route().current('rejection-code.*')"
             />
         </SidebarCollapsible>
 

@@ -13,7 +13,7 @@ class InvoiceTypeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('InvoiceType/Index', [
+        return Inertia::render('Catalogo/Conceptos/InvoiceType/Index', [
             'data' => InvoiceType::orderBy('id', 'desc')->get()
         ]);
     }

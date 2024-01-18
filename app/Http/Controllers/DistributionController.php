@@ -13,7 +13,7 @@ class DistributionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Distribution/Index', [
+        return Inertia::render('Catalogo/Conceptos/Distribution/Index', [
             'data' => Distribution::orderBy('id', 'desc')->get()
         ]);
     }
