@@ -126,6 +126,35 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 :active="route().current('rejection-code.*')"
             />
         </SidebarCollapsible>
+        <SidebarCollapsible
+            title="Tarifas"
+            :active="route().current('families.*') || route().current('kilometer-cost.*') || route().current('company-cost.*')"
+        >
+            <template #icon>
+                <i class="pi pi-sort-amount-up-alt"></i>
+            </template>
+
+            <SidebarCollapsibleItem
+                :href="route('families.index')"
+                title="Familias"
+                :active="route().current('families.*')"
+            />
+
+            <!-- kilometer cost -->
+            <SidebarCollapsibleItem
+                :href="route('kilometer-cost.index')"
+                title="Cobros por Kilometro"
+                :active="route().current('kilometer-cost.*')"
+            />
+
+            <!-- company cost -->
+            <SidebarCollapsibleItem
+                :href="route('company-cost.index')"
+                title="Cobros por Empresa"
+                :active="route().current('company-cost.*')"
+            />
+
+        </SidebarCollapsible>
 
 
         <!-- Examples -->

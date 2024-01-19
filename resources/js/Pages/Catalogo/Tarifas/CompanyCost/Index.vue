@@ -1,11 +1,11 @@
 <template lang="">
-    <AuthenticatedLayout title="Codigo de rechazo">
+    <AuthenticatedLayout title="Cobro a Empresas">
         <template #header>
             <div class="flex  gap-4 md:flex-row md:items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight">Codigo de rechazo</h2>
+                <h2 class="text-xl font-semibold leading-tight">Cobro a Empresas</h2>
                 <button @click="openModal(false,'create')" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <i class="pi pi-plus mr-2"></i>
-                    <span>Crear Codigo de rechazo</span>
+                    <span>Crear Cobro a Empresas</span>
                 </button>
             </div>
         </template>
@@ -17,7 +17,7 @@
         <Modal :show="open" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ module == 'create' ? 'Crear Codigo de rechazo' : (module == 'edit' ? 'Editar Codigo de rechazo' : 'Eliminar Codigo de rechazo') }}
+                    {{ module == 'create' ? 'Crear Cobro a Empresas' : (module == 'edit' ? 'Editar Cobro a Empresas' : 'Eliminar Cobro a Empresas') }}
                 </h2>
                 <hr class="m-5">
                 <form @submit.prevent="handleForm">
@@ -27,14 +27,38 @@
                         <InputError class="mt-2" :message="form.errors.company_id" />
                     </div>
                     <div class="mb-3">
-                        <InputLabel value="Codigo:" class="mb-2"/>
-                        <input type="text" id="code" v-model="form.code" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <InputError class="mt-2" :message="form.errors.code" />
+                        <InputLabel value="Localidad:" class="mb-2"/>
+                        <Dropdown v-model="form.location_id" filter :disabled="module == 'delete'" :options="locations" optionValue="id" optionLabel="name" placeholder="Selecciona una localidad" class="w-full md:w-14rem border-1 border-sky-500" />
+                        <InputError class="mt-2" :message="form.errors.location_id" />
                     </div>
                     <div class="mb-3">
-                        <InputLabel value="Descripcion:" class="mb-2"/>
-                        <input type="text" id="description" v-model="form.description" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <InputError class="mt-2" :message="form.errors.description" />
+                        <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Selecciona un tipo:</h3>
+                        <ul class="grid w-full gap-6 md:grid-cols-3">
+                            <li>
+                                <input type="radio" id="react-option" name="type" value="box" v-model="form.type" class="hidden peer" :checked="form.type == 'box'"/>
+                                <label for="react-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div class="block">
+                                        <i class="pi pi-box"></i>
+                                        <div class="w-full text-lg font-semibold">Caja</div>
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="flowbite-option"  name="type" value="percentage" v-model="form.type" class="hidden peer" :checked="form.type == 'percentage'">
+                                <label for="flowbite-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div class="block">
+                                        <i class="pi pi-percentage"></i>
+                                        <div class="w-full text-lg font-semibold">Porcentaje (%)</div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                        <InputError class="mt-2" :message="form.errors.type" />
+                    </div>
+                    <div class="mb-3">
+                        <InputLabel value="Costo:" class="mb-2"/>
+                        <input type="number" step="0.01" v-model="form.cost" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.cost" />
                     </div>
                     <div class="flex items-center justify-end gap-4">
                         <button
@@ -73,16 +97,20 @@ import Dropdown from 'primevue/dropdown';
 
 const props = defineProps({
     data: Array,
+    locations : Array,
     companies : Array
 })
 
 
 const open = ref(false)
 
+const type = ref(1)
+
 const form = useForm({
-    code: '',
+    cost: '',
+    location_id: '',
     company_id: '',
-    description : '',
+    type: null,
 })
 
 const module = ref('create')
@@ -95,9 +123,10 @@ const openModal = (data,type) => {
 
     if(type == 'edit'){
         module.value = 'edit'
+        form.location_id = data.location_id
+        form.cost = data.cost
         form.company_id = data.company_id
-        form.code = data.code
-        form.description = data.description
+        form.type = data.type
 
 
     }else if(type == 'create'){
@@ -106,9 +135,10 @@ const openModal = (data,type) => {
 
     }else{
         module.value = 'delete'
+        form.location_id = data.location_id
+        form.cost = data.cost
         form.company_id = data.company_id
-        form.code = data.code
-        form.description = data.description
+        form.type = data.type
 
     }
 }
@@ -120,7 +150,7 @@ const closeModal = () => {
 
 const handleForm = () => {
     if(module.value == 'create'){
-        form.post(route('rejection-codes.store'), {
+        form.post(route('company-cost.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast.add({
@@ -131,7 +161,7 @@ const handleForm = () => {
         }
     })
     }else if(module.value == 'edit'){
-        form.put(route('rejection-codes.update', id.value), {
+        form.put(route('company-cost.update', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({
@@ -149,7 +179,7 @@ const handleForm = () => {
             }
         })
     }else{
-        form.delete(route('rejection-codes.destroy', id.value), {
+        form.delete(route('company-cost.destroy', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({

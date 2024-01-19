@@ -1,11 +1,11 @@
 <template lang="">
-    <AuthenticatedLayout title="Familias">
+    <AuthenticatedLayout title="Cobro por Kilometro">
         <template #header>
             <div class="flex  gap-4 md:flex-row md:items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight">Familias</h2>
+                <h2 class="text-xl font-semibold leading-tight">Cobro por Kilometro</h2>
                 <button @click="openModal(false,'create')" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <i class="pi pi-plus mr-2"></i>
-                    <span>Crear Familia</span>
+                    <span>Crear Cobro por Kilometro</span>
                 </button>
             </div>
         </template>
@@ -17,14 +17,19 @@
         <Modal :show="open" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ module == 'create' ? 'Crear Familia' : (module == 'edit' ? 'Editar Familia' : 'Eliminar Familia') }}
+                    {{ module == 'create' ? 'Crear Cobro por Kilometro' : (module == 'edit' ? 'Editar Cobro por Kilometro' : 'Eliminar Cobro por Kilometro') }}
                 </h2>
                 <hr class="m-5">
                 <form @submit.prevent="handleForm">
                     <div class="mb-3">
-                        <InputLabel value="Familia:" class="mb-2"/>
-                        <input type="text" id="customer_time" v-model="form.name" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputLabel value="Localidad:" class="mb-2"/>
+                        <Dropdown v-model="form.location_id" filter :disabled="module == 'delete'" :options="locations" optionValue="id" optionLabel="name" placeholder="Selecciona una localidad" class="w-full md:w-14rem border-1 border-sky-500" />
+                        <InputError class="mt-2" :message="form.errors.location_id" />
+                    </div>
+                    <div class="mb-3">
+                        <InputLabel value="Costo:" class="mb-2"/>
+                        <input type="number" step="0.01" v-model="form.cost" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.cost" />
                     </div>
                     <div class="flex items-center justify-end gap-4">
                         <button
@@ -58,16 +63,20 @@ import { useForm } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 import toast from "@/Stores/toast";
 import { usePage } from '@inertiajs/vue3'
+import Dropdown from 'primevue/dropdown';
+
 
 const props = defineProps({
-    data: Array
+    data: Array,
+    locations : Array
 })
 
 
 const open = ref(false)
 
 const form = useForm({
-  name: '',
+    cost: '',
+    location_id: '',
 })
 
 const module = ref('create')
@@ -76,11 +85,13 @@ const id = ref('')
 
 const openModal = (data,type) => {
     open.value = true
+    id.value = data.id
 
     if(type == 'edit'){
         module.value = 'edit'
-        id.value = data.id
-        form.name = data.name
+        form.location_id = data.location_id
+        form.cost = data.cost
+
 
     }else if(type == 'create'){
         module.value = 'create'
@@ -88,8 +99,8 @@ const openModal = (data,type) => {
 
     }else{
         module.value = 'delete'
-        id.value = data.id
-        form.name = data.name
+        form.location_id = data.location_id
+        form.cost = data.cost
 
     }
 }
@@ -101,7 +112,7 @@ const closeModal = () => {
 
 const handleForm = () => {
     if(module.value == 'create'){
-        form.post(route('families.store'), {
+        form.post(route('kilometer-cost.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast.add({
@@ -112,7 +123,7 @@ const handleForm = () => {
         }
     })
     }else if(module.value == 'edit'){
-        form.put(route('families.update', id.value), {
+        form.put(route('kilometer-cost.update', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({
@@ -130,7 +141,7 @@ const handleForm = () => {
             }
         })
     }else{
-        form.delete(route('families.destroy', id.value), {
+        form.delete(route('kilometer-cost.destroy', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({

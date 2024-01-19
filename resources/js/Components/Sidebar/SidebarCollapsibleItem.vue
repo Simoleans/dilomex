@@ -35,7 +35,7 @@ const Tag = external ? 'a' : Link
             :class="[
                 'transition-colors hover:text-gray-900 dark:hover:text-gray-100',
                 {
-                    'text-gray-900 dark:text-gray-200': active,
+                    'text-gray-900 dark:text-gray-200 font-bold': active,
                     'text-gray-500 dark:text-gray-400': !active,
                 },
             ]"

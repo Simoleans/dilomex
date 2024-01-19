@@ -8,13 +8,16 @@
                 </span>
             </div>
         </template>
-        <Column field="code" header="Codigo"></Column>
-        <Column field="company" header="Empresa">
+        <Column field="cost" header="Costo">
             <template #body="{data}">
-                <span>{{ data.company.name }}</span>
+                <span>{{ formatNumber(data.cost) }}</span>
             </template>
         </Column>
-        <Column field="description" header="Descripcion"></Column>
+        <Column field="location" header="Localidad">
+            <template #body="{data}">
+                <span>{{ data.location.name }}</span>
+            </template>
+        </Column>
         <Column field="actions" header="Acciones">
             <template #body="{data}">
                 <div class="flex justify-between gap-4">
@@ -43,6 +46,13 @@ import { ref } from 'vue';
 const filters1 = ref({
     'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
 });
+
+const formatNumber = (value) => {
+    return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+    }).format(value);
+};
 
 const props = defineProps({
     data: Array

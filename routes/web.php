@@ -63,4 +63,13 @@ Route::resource('invoice-status', 'App\Http\Controllers\InvoiceStatusController'
 //rejection codes
 Route::resource('rejection-codes', 'App\Http\Controllers\RejectionCodeController');
 
+//family
+Route::resource('families', 'App\Http\Controllers\FamilyController');
+
+//kilometer cost
+Route::resource('kilometer-cost', 'App\Http\Controllers\KilometerCostController');
+
+//company cost
+Route::resource('company-cost', 'App\Http\Controllers\CompanyCostController');
+
 require __DIR__ . '/auth.php';

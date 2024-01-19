@@ -1,6 +1,13 @@
 <template lang="">
     <DataTable :value="data" tableStyle="min-width: 9rem" :rowsPerPageOptions="[4,10,20]"  responsiveLayout="scroll" breakpoint="100px" :paginator="true" :rows="10" paginatorTemplate="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
-        currentPageReportTemplate="Ver {first} a {last} de {totalRecords}">
+    currentPageReportTemplate="Ver {first} a {last} de {totalRecords}" v-model:filters="filters1">
+        <template #header>
+            <div class="flex justify-end gap-1 sm:max-sm:flex-col">
+                <span class="p-input-icon-left">
+                    <input type="text"  placeholder="Busqueda..." v-model="filters1['global'].value" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </span>
+            </div>
+        </template>
         <Column field="code" header="Code"></Column>
         <Column field="name" header="Razon Social"></Column>
         <Column field="rfc" header="RFC"></Column>
@@ -26,6 +33,12 @@
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import {FilterMatchMode} from 'primevue/api';
+import { ref } from 'vue';
+
+const filters1 = ref({
+    'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+});
 
 const props = defineProps({
     data: Array
