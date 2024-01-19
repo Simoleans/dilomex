@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('local_transport_rates', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('distribution_id')->constrained('distributions');
+            $table->foreignId('uni_type_id')->constrained('uni_types');
+            $table->decimal('cost', 22, 4)->default(0);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('local_transport_rates');
+    }
+};

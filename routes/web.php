@@ -72,4 +72,13 @@ Route::resource('kilometer-cost', 'App\Http\Controllers\KilometerCostController'
 //company cost
 Route::resource('company-cost', 'App\Http\Controllers\CompanyCostController');
 
+//unit type
+Route::resource('unit-type', 'App\Http\Controllers\UnitTypeController');
+
+//foreign transport rates
+Route::resource('foreign-transport-rates', 'App\Http\Controllers\ForeignTransportRateController');
+
+//local transport rates
+Route::resource('local-transport-rates', 'App\Http\Controllers\LocalTransportRateController');
+
 require __DIR__ . '/auth.php';

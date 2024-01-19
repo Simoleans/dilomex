@@ -128,7 +128,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         </SidebarCollapsible>
         <SidebarCollapsible
             title="Tarifas"
-            :active="route().current('families.*') || route().current('kilometer-cost.*') || route().current('company-cost.*')"
+            :active="route().current('families.*') || route().current('kilometer-cost.*') || route().current('company-cost.*') || route().current('foreign-transport-rates.*') || route().current('local-transport-rates.*')"
         >
             <template #icon>
                 <i class="pi pi-sort-amount-up-alt"></i>
@@ -152,6 +152,36 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 :href="route('company-cost.index')"
                 title="Cobros por Empresa"
                 :active="route().current('company-cost.*')"
+            />
+
+            <!-- foreign transport rates -->
+            <SidebarCollapsibleItem
+                :href="route('foreign-transport-rates.index')"
+                title="Tarifas foraneo de transporte"
+                :active="route().current('foreign-transport-rates.*')"
+            />
+
+            <!-- local transport rates -->
+            <SidebarCollapsibleItem
+                :href="route('local-transport-rates.index')"
+                title="Tarifas local de transporte"
+                :active="route().current('local-transport-rates.*')"
+            />
+
+        </SidebarCollapsible>
+
+        <SidebarCollapsible
+            title="Transporte"
+            :active="route().current('unit-type.*')"
+        >
+            <template #icon>
+                <i class="pi pi-car"></i>
+            </template>
+
+            <SidebarCollapsibleItem
+                :href="route('unit-type.index')"
+                title="Tipo de unidad"
+                :active="route().current('unit-type.*')"
             />
 
         </SidebarCollapsible>
