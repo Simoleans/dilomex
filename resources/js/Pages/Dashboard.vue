@@ -5,14 +5,14 @@ import { GithubIcon } from '@/Components/Icons/brands'
 </script>
 
 <template>
-    <AuthenticatedLayout title="Dashboard">
+    <AuthenticatedLayout title="Escritorio">
         <template #header>
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <h2 class="text-xl font-semibold leading-tight">
-                    Dashboard
+                    Escritorio
                 </h2>
 
-                <Button
+               <!--  <Button
                     external
                     variant="black"
                     target="_blank"
@@ -23,12 +23,12 @@ import { GithubIcon } from '@/Components/Icons/brands'
                     <GithubIcon aria-hidden="true" :class="iconSizeClasses" />
 
                     <span>Star on Github</span>
-                </Button>
+                </Button> -->
             </div>
         </template>
 
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-            You're logged in!
+            Bienvenido a Dilomex
         </div>
     </AuthenticatedLayout>
 </template>

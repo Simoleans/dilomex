@@ -47,6 +47,22 @@
                         <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 
+                    <div class="mb-3">
+                        <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Linea propia:</h3>
+                        <ul class="grid w-full gap-6 md:grid-cols-3">
+                            <li :class="{'border-4 border-sky-500' : form.own_line}">
+                                <input type="checkbox" id="react-option" name="own_line" v-model="form.own_line" class="hidden peer" :checked="form.own_line == 1"/>
+                                <label for="react-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div class="block">
+                                        <i class="pi pi-plus-circle"></i>
+                                        <div class="w-full text-lg font-semibold">Linea Propia</div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                        <InputError class="mt-2" :message="form.errors.own_line" />
+                    </div>
+
                     <div class="flex items-center justify-end gap-4">
                         <button
                             class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -93,7 +109,7 @@ const form = useForm({
     phone: '',
     contact : '',
     email : '',
-    own_line : 0,
+    own_line : '',
 })
 
 
@@ -135,6 +151,8 @@ const openModal = (data,type) => {
         form.own_line = data.own_line
 
     }
+
+    console.log(data,form)
 }
 
 const closeModal = () => {

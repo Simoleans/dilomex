@@ -26,27 +26,9 @@ import { TemplateIcon } from '@heroicons/vue/outline'
             </template>
         </SidebarLink>
 
-        <!-- <SidebarCollapsible
-            title="Components"
-            :active="route().current('components.*')"
-        >
-            <template #icon>
-                <TemplateIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-
-            <SidebarCollapsibleItem
-                :href="route('components.buttons')"
-                title="Buttons"
-                :active="route().current('components.buttons')"
-            />
-        </SidebarCollapsible> -->
-
         <SidebarCollapsible
             title="Adminstracion"
-            :active="route().current('companies.*')"
+            :active="route().current('companies.*') || route().current('caps.*')"
         >
             <template #icon>
                 <TemplateIcon
@@ -54,18 +36,19 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                     aria-hidden="true"
                 />
             </template>
-
-            <!-- <SidebarCollapsibleItem
-                :href="route('components.buttons')"
-                title="Buttons"
-                :active="route().current('components.buttons')"
-            /> -->
 
             <!-- companies -->
             <SidebarCollapsibleItem
                 :href="route('companies.index')"
                 title="Empresas"
                 :active="route().current('companies.*')"
+            />
+
+            <!-- caps -->
+            <SidebarCollapsibleItem
+                :href="route('caps.index')"
+                title="CAPs"
+                :active="route().current('caps.*')"
             />
         </SidebarCollapsible>
         <hr>

@@ -17,12 +17,10 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
+            'status' => session('status'),
+        ]);
 });
 
 Route::get('/dashboard', function () {
@@ -91,5 +89,11 @@ Route::get('transport-contacts/page/{type}', 'App\Http\Controllers\TransportCont
 
 //transport lines
 Route::resource('transport-lines', 'App\Http\Controllers\TransportLineController');
+
+//caps
+Route::resource('caps', 'App\Http\Controllers\CapController');
+
+//users
+Route::resource('users', 'App\Http\Controllers\UserController');
 
 require __DIR__ . '/auth.php';

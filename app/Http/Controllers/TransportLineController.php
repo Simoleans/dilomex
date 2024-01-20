@@ -32,29 +32,31 @@ class TransportLineController extends Controller
     public function store(Request $request)
     {
 
-            $request->validate(
-                [
-                    'company_name' => 'required',
-                    'address' => 'required',
-                    'contact' => 'required',
-                    'email' => 'required|unique:transport_lines',
-                    'phone' => 'required',
-                ],
-            );
+        //dd($request->all());
 
-            $store = TransportLine::create($request->all());
+        $request->validate(
+            [
+                'company_name' => 'required',
+                'address' => 'required',
+                'contact' => 'required',
+                'email' => 'required|unique:transport_lines',
+                'phone' => 'required',
+            ],
+        );
 
-            if (!$store) {
-                return redirect()->route('transport-lines.index')->with([
-                    'message' => '¡Error al crear la linea de transporte!',
-                    'type' => 'error'
-                ]);
-            } else {
-                return redirect()->route('transport-lines.index')->with([
-                    'message' => '¡La linea de transporte se ha creado correctamente!',
-                    'type' => 'success'
-                ]);
-            }
+        $store = TransportLine::create($request->all());
+
+        if (!$store) {
+            return redirect()->route('transport-lines.index')->with([
+                'message' => '¡Error al crear la linea de transporte!',
+                'type' => 'error'
+            ]);
+        } else {
+            return redirect()->route('transport-lines.index')->with([
+                'message' => '¡La linea de transporte se ha creado correctamente!',
+                'type' => 'success'
+            ]);
+        }
     }
 
     /**
