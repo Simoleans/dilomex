@@ -128,7 +128,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         </SidebarCollapsible>
         <SidebarCollapsible
             title="Tarifas"
-            :active="route().current('families.*') || route().current('kilometer-cost.*') || route().current('company-cost.*') || route().current('foreign-transport-rates.*') || route().current('local-transport-rates.*')"
+            :active="route().current('families.*') || route().current('kilometer-cost.*') || route().current('company-cost.*') || route().current('foreign-transport-rates.*') || route().current('local-transport-rates.*') || route().current('company-travel.*')"
         >
             <template #icon>
                 <i class="pi pi-sort-amount-up-alt"></i>
@@ -168,11 +168,18 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 :active="route().current('local-transport-rates.*')"
             />
 
+            <!-- company travel -->
+            <SidebarCollapsibleItem
+                :href="route('company-travel.index')"
+                title="Viajes por empresa"
+                :active="route().current('company-travel.*')"
+            />
+
         </SidebarCollapsible>
 
         <SidebarCollapsible
             title="Transporte"
-            :active="route().current('unit-type.*')"
+            :active="route().current('unit-type.*') || route().current('transport-contacts.*') || route().current('transport-lines.*')"
         >
             <template #icon>
                 <i class="pi pi-car"></i>
@@ -182,6 +189,20 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 :href="route('unit-type.index')"
                 title="Tipo de unidad"
                 :active="route().current('unit-type.*')"
+            />
+
+            <!-- transport contact -->
+            <SidebarCollapsibleItem
+                :href="route('transport-contacts.page',1)"
+                title="Ayudante/Chofer"
+                :active="route().current('transport-contacts.*')"
+            />
+
+            <!-- transpor line -->
+            <SidebarCollapsibleItem
+                :href="route('transport-lines.index')"
+                title="Linea de transporte"
+                :active="route().current('transport-lines.*')"
             />
 
         </SidebarCollapsible>

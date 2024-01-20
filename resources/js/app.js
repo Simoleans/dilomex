@@ -16,7 +16,7 @@ import "primeicons/primeicons.css";
 import ConfirmationService from 'primevue/confirmationservice';
 
 const appName =
-    window.document.getElementsByTagName('title')[0]?.innerText || 'K UI'
+    window.document.getElementsByTagName('title')[0]?.innerText || 'Dilomex'
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

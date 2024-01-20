@@ -1,11 +1,11 @@
 <template lang="">
-    <AuthenticatedLayout title="Tarifa F. Transporte">
+    <AuthenticatedLayout title="Tarifa a Empresa viaje Dedic">
         <template #header>
             <div class="flex  gap-4 md:flex-row md:items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight">Tarifa F. Transporte</h2>
+                <h2 class="text-xl font-semibold leading-tight">Tarifa a Empresa viaje Dedic</h2>
                 <button @click="openModal(false,'create')" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <i class="pi pi-plus mr-2"></i>
-                    <span>Crear Tarifa F. Transporte</span>
+                    <span>Crear Tarifa de viaje</span>
                 </button>
             </div>
         </template>
@@ -17,7 +17,7 @@
         <Modal :show="open" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ module == 'create' ? 'Crear Tarifa F. Transporte' : (module == 'edit' ? 'Editar Tarifa F. Transporte' : 'Eliminar Tarifa F. Transporte') }}
+                    {{ module == 'create' ? 'Crear Tarifa de viaje' : (module == 'edit' ? 'Editar Tarifa de viaje' : 'Eliminar Tarifa de viaje') }}
                 </h2>
                 <hr class="m-5">
                 <form @submit.prevent="handleForm">
@@ -121,7 +121,7 @@ const closeModal = () => {
 
 const handleForm = () => {
     if(module.value == 'create'){
-        form.post(route('foreign-transport-rates.store'), {
+        form.post(route('company-travel.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast.add({
@@ -132,7 +132,7 @@ const handleForm = () => {
         }
     })
     }else if(module.value == 'edit'){
-        form.put(route('foreign-transport-rates.update', id.value), {
+        form.put(route('company-travel.update', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({
@@ -150,7 +150,7 @@ const handleForm = () => {
             }
         })
     }else{
-        form.delete(route('foreign-transport-rates.destroy', id.value), {
+        form.delete(route('company-travel.destroy', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({

@@ -81,4 +81,15 @@ Route::resource('foreign-transport-rates', 'App\Http\Controllers\ForeignTranspor
 //local transport rates
 Route::resource('local-transport-rates', 'App\Http\Controllers\LocalTransportRateController');
 
+//company travel
+Route::resource('company-travel', 'App\Http\Controllers\CompanyTravelController');
+
+//transport contacts
+Route::resource('transport-contacts', 'App\Http\Controllers\TransportContactController')->except('index');
+//index with type
+Route::get('transport-contacts/page/{type}', 'App\Http\Controllers\TransportContactController@page')->name('transport-contacts.page');
+
+//transport lines
+Route::resource('transport-lines', 'App\Http\Controllers\TransportLineController');
+
 require __DIR__ . '/auth.php';

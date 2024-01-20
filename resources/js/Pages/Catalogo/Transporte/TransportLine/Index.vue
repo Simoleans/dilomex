@@ -1,41 +1,52 @@
 <template lang="">
-    <AuthenticatedLayout title="Tarifa F. Transporte">
+    <AuthenticatedLayout title="Linea de Transporte">
         <template #header>
             <div class="flex  gap-4 md:flex-row md:items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight">Tarifa F. Transporte</h2>
+                <h2 class="text-xl font-semibold leading-tight">Linea de Transporte</h2>
                 <button @click="openModal(false,'create')" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <i class="pi pi-plus mr-2"></i>
-                    <span>Crear Tarifa F. Transporte</span>
+                    <span>Crear Linea</span>
                 </button>
             </div>
         </template>
 
-        <div class="grid items-center gap-6 mt-4">
+        <div class="mt-4">
             <Table :data="data"  @openModal="openModal"/>
         </div>
 
         <Modal :show="open" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ module == 'create' ? 'Crear Tarifa F. Transporte' : (module == 'edit' ? 'Editar Tarifa F. Transporte' : 'Eliminar Tarifa F. Transporte') }}
+                    {{ module == 'create' ? 'Crear Linea' : (module == 'edit' ? 'Editar Linea' : 'Eliminar Linea') }}
                 </h2>
                 <hr class="m-5">
                 <form @submit.prevent="handleForm">
                     <div class="mb-3">
-                        <InputLabel value="Poblacion:" class="mb-2"/>
-                        <Dropdown v-model="form.population_id" filter :options="populations" :disabled="module == 'delete'" optionValue="id" optionLabel="name" placeholder="Selecciona una poblacion" class="w-full md:w-14rem border-1 border-sky-500" />
-                        <InputError class="mt-2" :message="form.errors.population_id" />
+                        <InputLabel value="Empresa:" class="mb-2"/>
+                        <input type="text" v-model="form.company_name" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.company_name" />
                     </div>
                     <div class="mb-3">
-                        <InputLabel value="Unidad:" class="mb-2"/>
-                        <Dropdown v-model="form.uni_type_id" filter :disabled="module == 'delete'" :options="uniTypes" optionValue="id" optionLabel="name" placeholder="Selecciona una localidad" class="w-full md:w-14rem border-1 border-sky-500" />
-                        <InputError class="mt-2" :message="form.errors.uni_type_id" />
+                        <InputLabel value="Domicilio:" class="mb-2"/>
+                        <input type="text" v-model="form.address" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.address" />
                     </div>
                     <div class="mb-3">
-                        <InputLabel value="Costo:" class="mb-2"/>
-                        <input type="number" step="0.01" v-model="form.cost" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <InputError class="mt-2" :message="form.errors.cost" />
+                        <InputLabel value="Telefono:" class="mb-2"/>
+                        <input type="text" v-model="form.phone" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.phone" />
                     </div>
+                    <div class="mb-3">
+                        <InputLabel value="Contacto:" class="mb-2"/>
+                        <input type="text" v-model="form.contact" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.contact" />
+                    </div>
+                    <div class="mb-3">
+                        <InputLabel value="Email:" class="mb-2"/>
+                        <input type="text" v-model="form.email" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+
                     <div class="flex items-center justify-end gap-4">
                         <button
                             class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -68,24 +79,23 @@ import { useForm } from '@inertiajs/vue3'
 import InputError from '@/Components/InputError.vue'
 import toast from "@/Stores/toast";
 import { usePage } from '@inertiajs/vue3'
-import Dropdown from 'primevue/dropdown';
-
 
 const props = defineProps({
-    data: Array,
-    populations : Array,
-    uniTypes : Array
+    data: Array
 })
 
 
 const open = ref(false)
 
-
 const form = useForm({
-    cost: '',
-    uni_type_id: '',
-    population_id: '',
+    company_name: '',
+    address: '',
+    phone: '',
+    contact : '',
+    email : '',
+    own_line : 0,
 })
+
 
 const module = ref('create')
 const id = ref('')
@@ -93,24 +103,37 @@ const id = ref('')
 
 const openModal = (data,type) => {
     open.value = true
-    id.value = data.id
 
     if(type == 'edit'){
         module.value = 'edit'
-        form.uni_type_id = data.uni_type_id
-        form.cost = data.cost
-        form.population_id = data.population_id
-
+        id.value = data.id
+        form.company_name = data.company_name
+        form.address = data.address
+        form.phone = data.phone
+        form.contact = data.contact
+        form.email = data.email
+        form.own_line = data.own_line
 
     }else if(type == 'create'){
         module.value = 'create'
-        form.name = ''
+        form.company_name = ''
+        form.address = ''
+        form.phone = ''
+        form.contact = ''
+        form.email = ''
+        form.own_line = 0
+
 
     }else{
         module.value = 'delete'
-        form.uni_type_id = data.uni_type_id
-        form.cost = data.cost
-        form.population_id = data.population_id
+        id.value = data.id
+        form.company_name = data.company_name
+        form.address = data.address
+        form.phone = data.phone
+        form.contact = data.contact
+        form.email = data.email
+        form.own_line = data.own_line
+
     }
 }
 
@@ -121,7 +144,7 @@ const closeModal = () => {
 
 const handleForm = () => {
     if(module.value == 'create'){
-        form.post(route('foreign-transport-rates.store'), {
+        form.post(route('transport-lines.store'), {
         preserveScroll: true,
         onSuccess: () => {
             toast.add({
@@ -132,7 +155,7 @@ const handleForm = () => {
         }
     })
     }else if(module.value == 'edit'){
-        form.put(route('foreign-transport-rates.update', id.value), {
+        form.put(route('transport-lines.update', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({
@@ -150,7 +173,7 @@ const handleForm = () => {
             }
         })
     }else{
-        form.delete(route('foreign-transport-rates.destroy', id.value), {
+        form.delete(route('transport-lines.destroy', id.value), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.add({
