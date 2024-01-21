@@ -8,9 +8,8 @@
                 </span>
             </div>
         </template>
-        <Column field="business_name" header="Razon Social"></Column>
-        <Column field="contact" header="Contacto"></Column>
-        <Column field="phone" header="Telefono"></Column>
+        <Column field="name" header="Nombre"></Column>
+        <Column field="username" header="Usuario"></Column>
         <Column field="email" header="Email"></Column>
         <Column field="actions" header="Acciones">
             <template #body="{data}">
@@ -21,8 +20,11 @@
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
                     </SecondaryButton>
-                    <SecondaryButton :type="button" class="w-full flex justify-center bg-red-500 py-2 px-2 text-white" @click="emit('openModal',data,'delete')">
+                   <!--  <SecondaryButton :type="button" class="w-full flex justify-center bg-red-500 py-2 px-2 text-white" @click="emit('openModal',data,'delete')">
                         <i class="pi pi-trash" />
+                    </SecondaryButton> -->
+                    <SecondaryButton tittle="Enviar Contraseña nueva" :type="button" class="w-full flex justify-center bg-green-500 py-2 px-2 text-white" @click="emit('openModalPassword',data)">
+                        <i class="pi pi-unlock" />
                     </SecondaryButton>
                 </div>
             </template>
@@ -46,6 +48,6 @@ const props = defineProps({
 })
 
 
-const emit = defineEmits(["openModal"]);
+const emit = defineEmits(["openModal","openModalPassword"]);
 
 </script>

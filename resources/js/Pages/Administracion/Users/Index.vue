@@ -10,8 +10,8 @@
             </div>
         </template>
 
-        <div class="grid items-center gap-6 mt-4">
-            <Table :data="data"  @openModal="openModal"/>
+        <div class="mt-4">
+            <Table :data="data"  @openModal="openModal" @openModalPassword="openModalPassword"/>
         </div>
 
         <Modal :show="open" @close="closeModal">
@@ -21,26 +21,31 @@
                 </h2>
                 <hr class="m-5">
                 <form @submit.prevent="handleForm">
-                    <div class="flex gap-4 flex-col md:lg:flex-row items-center">
-                        <div class="mb-3 w-full">
-                            <InputLabel value="Razon Social:" class="mb-2"/>
-                            <input type="text" id="name" v-model="form.name" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                            <InputError class="mt-2" :message="form.errors.name" />
-                        </div>
-                        <div class="mb-3 w-full">
-                            <InputLabel value="Correo Electronico:" class="mb-2"/>
-                            <input type="email" id="email" v-model="form.email" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                            <InputError class="mt-2" :message="form.errors.email" />
-                        </div>
-                        <div class="mb-3 w-full">
-                            <InputLabel value="Usuario:" class="mb-2"/>
-                            <input type="text" id="username" v-model="form.username" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                            <InputError class="mt-2" :message="form.errors.username" />
-                        </div>
+                    <div class="mb-3 w-full">
+                        <InputLabel value="Nombre Completo:" class="mb-2"/>
+                        <input type="text" id="name" v-model="form.name" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+                    <div class="mb-3 w-full">
+                        <InputLabel value="Correo Electronico:" class="mb-2"/>
+                        <input type="email" id="email" v-model="form.email" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+                    <div class="mb-3 w-full">
+                        <InputLabel value="Usuario:" class="mb-2"/>
+                        <input type="text" id="username" v-model="form.username" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <InputError class="mt-2" :message="form.errors.username" />
+                    </div>
+                    <div v-if="module == 'create'" class="flex gap-4 flex-col md:lg:flex-row items-center">
                         <div class="mb-3 w-full">
                             <InputLabel value="Contraseña:" class="mb-2"/>
                             <input type="password" id="password" v-model="form.password" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                             <InputError class="mt-2" :message="form.errors.password" />
+                        </div>
+                        <div class="mb-3 w-full">
+                            <InputLabel value="Repetir contraseña:" class="mb-2"/>
+                            <input type="password" id="password_confirmation" v-model="form.password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <InputError class="mt-2" :message="form.errors.password_confirmation" />
                         </div>
                     </div>
                     <div class="flex items-center justify-end gap-4">
@@ -59,7 +64,48 @@
                     </div>
                 </form>
             </div>
-    </Modal>
+        </Modal>
+
+        <!-- modal change password -->
+
+        <Modal :show="openPassword" @close="closeModalPassword">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                    Cambiar Clave
+                </h2>
+                <hr class="m-5">
+                <form @submit.prevent="handleChangePAssword">
+                    <div v-if="module == 'create'" class="flex gap-4 flex-col md:lg:flex-row items-center">
+                        <div class="mb-3 w-full">
+                            <InputLabel value="Contraseña:" class="mb-2"/>
+                            <input type="password" id="password" v-model="formChangePassword.password" :disabled="module == 'delete'" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <InputError class="mt-2" :message="formChangePassword.errors.password" />
+                        </div>
+                        <div class="mb-3 w-full">
+                            <InputLabel value="Repetir contraseña:" class="mb-2"/>
+                            <input type="password" id="password_confirmation" v-model="formChangePassword.password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <InputError class="mt-2" :message="formChangePassword.errors.password_confirmation" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end gap-4">
+                        <button
+                            class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="button"
+                            @click="closeModalPassword">
+                                Cerrar
+                        </button>
+                        <button :class="{ 'opacity-25': form.processing, 'bg-red-600' : module == 'delete' }"
+                            :disabled="form.processing"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit">
+                                Cambiar Clave
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </Modal>
+
+
     </AuthenticatedLayout>
 
 </template>
@@ -82,13 +128,20 @@ const props = defineProps({
 
 
 const open = ref(false)
+const openPassword = ref(false)
 
 const form = useForm({
     name: '',
     username: '',
     email : '',
     password: '',
+    password_confirmation: '',
 
+})
+
+const formChangePassword = useForm({
+    password: '',
+    password_confirmation: '',
 })
 
 const module = ref('create')
@@ -105,12 +158,14 @@ const openModal = (data,type) => {
         form.username = data.username
         form.password = data.password
         form.email = data.email
+        form.password_confirmation = data.password
     }else if(type == 'create'){
         module.value = 'create'
         form.name = ''
         form.username = ''
         form.password = ''
         form.email = ''
+        form.password_confirmation = ''
     }else{
         module.value = 'delete'
         id.value = data.id
@@ -118,7 +173,18 @@ const openModal = (data,type) => {
         form.username = data.username
         form.password = data.password
         form.email = data.email
+        form.password_confirmation = data.password
     }
+}
+
+const openModalPassword = (data) => {
+    id.value = data.id
+    openPassword.value = true
+}
+
+const closeModalPassword = () => {
+    openPassword.value = false
+    formChangePassword.reset()
 }
 
 const closeModal = () => {
@@ -175,6 +241,26 @@ const handleForm = () => {
             }
         })
     }
+}
+
+const handleChangePAssword = () => {
+    formChangePassword.put(route('users.change-password', id.value), {
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.add({
+                message: usePage().props.toast.message,
+                type: usePage().props.toast.type
+            });
+            closeModalPassword()
+        },
+        onError: () => {
+            toast.add({
+                message: 'Error',
+                type: 'error'
+            });
+            closeModalPassword()
+        }
+    })
 }
 
 </script>

@@ -95,5 +95,7 @@ Route::resource('caps', 'App\Http\Controllers\CapController');
 
 //users
 Route::resource('users', 'App\Http\Controllers\UserController');
+//change password
+Route::put('users/change-password/{user}', 'App\Http\Controllers\UserController@changePassword')->name('users.change-password');
 
 require __DIR__ . '/auth.php';
