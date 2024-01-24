@@ -28,7 +28,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
 
         <SidebarCollapsible
             title="Adminstracion"
-            :active="route().current('companies.*') || route().current('caps.*') || route().current('users.*')"
+            :active="route().current('companies.*') || route().current('caps.*') || route().current('users.*') || route().current('customers.*')"
         >
             <template #icon>
                 <TemplateIcon
@@ -50,6 +50,13 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 title="CAPs"
                 :active="route().current('caps.*')"
 
+            />
+
+            <!--customers-->
+            <SidebarCollapsibleItem
+                :href="route('customers.index')"
+                title="Clientes"
+                :active="route().current('customers.*')"
             />
 
             <!-- users -->
@@ -197,6 +204,9 @@ import { TemplateIcon } from '@heroicons/vue/outline'
             />
 
         </SidebarCollapsible>
+        <hr>
+        Facturas
+        <hr>
 
 
         <!-- Examples -->

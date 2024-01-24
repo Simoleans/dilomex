@@ -98,4 +98,7 @@ Route::resource('users', 'App\Http\Controllers\UserController');
 //change password
 Route::put('users/change-password/{user}', 'App\Http\Controllers\UserController@changePassword')->name('users.change-password');
 
+//customer
+Route::resource('customers', 'App\Http\Controllers\CustomerController');
+
 require __DIR__ . '/auth.php';

@@ -39,7 +39,7 @@ class CustomerTypeController extends Controller
 
        if (!$store) {
            return redirect()->route('customer-type.index')->with([
-               'message' => '¡Error al crear la empresa!',
+               'message' => '¡Error al crear el tipo de cliente!',
                'type' => 'error'
            ]);
          }else{
