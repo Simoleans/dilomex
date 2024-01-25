@@ -89,4 +89,10 @@ class CompanyController extends Controller
             'type' => 'success'
         ]);
     }
+
+     //getCustomersByCompany with my Company $id
+     public function getCustomersByCompany(Company $company)
+     {
+         return response()->json($company->customers()->orderBy('id','desc')->get());
+     }
 }

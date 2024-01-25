@@ -52,4 +52,9 @@ class Company extends Model
         // Devolver el código
         return $code;
     }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 }

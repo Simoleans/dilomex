@@ -13,6 +13,7 @@ const props = defineProps({
     }
 });
 
+
 onMounted(() => {
   setTimeout(() => emit("remove"), props.duration);
 });

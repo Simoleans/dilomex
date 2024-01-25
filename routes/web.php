@@ -101,4 +101,10 @@ Route::put('users/change-password/{user}', 'App\Http\Controllers\UserController@
 //customer
 Route::resource('customers', 'App\Http\Controllers\CustomerController');
 
+//invoice
+Route::resource('invoices', 'App\Http\Controllers\InvoiceController');
+
+//get customers by company
+Route::post('customers/company/{company}', 'App\Http\Controllers\CompanyController@getCustomersByCompany')->name('getCustomers.company');
+
 require __DIR__ . '/auth.php';

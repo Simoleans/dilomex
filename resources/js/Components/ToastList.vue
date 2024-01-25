@@ -18,6 +18,7 @@ onUnmounted(() => removeFinshEventListener()); */
 function remove(index) {
   toast.remove(index);
 }
+
 </script>
 <template>
   <TransitionGroup
@@ -33,6 +34,7 @@ function remove(index) {
       :message="item.message"
       :duration="2000"
       @remove="remove(index)"
+        :type="item.type"
     />
   </TransitionGroup>
 </template>
