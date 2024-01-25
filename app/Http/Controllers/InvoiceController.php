@@ -15,7 +15,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Invoices/Index',[
+            'data' => Invoice::with('invoiceType','customer','company','family','invoiceStatus')->orderBy('id','desc')->get()
+        ]);
     }
 
     /**
@@ -38,7 +40,21 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceStoreRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
+
+        $store = Invoice::create($request->all());
+
+       if (!$store) {
+            return redirect()->route('invoices.index')->with([
+                'message' => '¡Error al crear la factura!',
+                'type' => 'error'
+            ]);
+        } else {
+            return redirect()->route('invoices.index')->with([
+                'message' => 'Factura creada correctamente!',
+                'type' => 'success'
+            ]);
+        }
     }
 
     /**

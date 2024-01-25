@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Catalogos\Tarifas\Family;
 
 class Invoice extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'code',
         'code_invoice',
         'invoice_type_id',
         'customer_id',
@@ -35,6 +37,17 @@ class Invoice extends Model
         'observations_invoice',
         'barcode'
     ];
+
+    //boot
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            $invoice->code = 'FAC-' . date('YmdHs');
+        });
+    }
+
 
     public function invoiceType()
     {

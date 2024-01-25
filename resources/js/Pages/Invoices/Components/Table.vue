@@ -1,6 +1,6 @@
 <template lang="">
-    <DataTable :value="data" tableStyle="min-width: 9rem" :rowsPerPageOptions="[4,10,20]"  responsiveLayout="scroll" breakpoint="100px" :paginator="true" :rows="10" paginatorTemplate="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
-    currentPageReportTemplate="Ver {first} a {last} de {totalRecords}" v-model:filters="filters1">
+    <DataTable :value="data" tableStyle="min-width: 9rem" :rowsPerPageOptions="[4,10,20,50]"  responsiveLayout="scroll" breakpoint="100px" :paginator="true" :rows="10" paginatorTemplate="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
+    currentPageReportTemplate="Ver {first} a {last} de {totalRecords}" v-model:filters="filters1" >
         <template #header>
             <div class="flex justify-end gap-1 sm:max-sm:flex-col">
                 <span class="p-input-icon-left">
@@ -8,9 +8,26 @@
                 </span>
             </div>
         </template>
-        <Column field="code" header="Codigo"></Column>
-        <Column field="name" header="Estatus de factura"></Column>
-        <Column field="actions" header="Acciones">
+        <Column field="code" header="Codigo de Factura"></Column>
+        <Column field="code_invoice" header="# Factura"></Column>
+        <Column field="client_id" header="Cliente">
+            <template #body="{data}">
+                <span class="uppercase">{{data.customer.name}}</span>
+            </template>
+        </Column>
+        <Column field="company_id" header="Empresa">
+            <template #body="{data}">
+                <span class="uppercase">{{data.company.name}}</span>
+            </template>
+        </Column>
+        <Column field="concentrated" header="Concentrado"></Column>
+        <Column field="invoice_type_id" header="Tipo">
+            <template #body="{data}">
+                <span class="uppercase">{{data.invoice_type.name}}</span>
+            </template>
+        </Column>
+
+        <!-- <Column field="actions" header="Acciones">
             <template #body="{data}">
                 <div class="flex justify-between gap-4">
                     <SecondaryButton v:type="button" class="w-full flex justify-center bg-orange-500 py-2 px-2 text-white" @click="emit('openModal',data,'edit')">
@@ -24,7 +41,7 @@
                     </SecondaryButton>
                 </div>
             </template>
-        </Column>
+        </Column> -->
         <template #empty> No hay registros. </template>
     </DataTable>
 </template>
@@ -42,11 +59,5 @@ const filters1 = ref({
 const props = defineProps({
     data: Array
 })
-
-const modalDelete = (id) => {
-    console.log(id)
-}
-
-const emit = defineEmits(["openModal"]);
 
 </script>

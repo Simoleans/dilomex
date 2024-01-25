@@ -3,10 +3,6 @@
         <template #header>
             <div class="flex  gap-4 md:flex-row md:items-center justify-between">
                 <h2 class="text-xl font-semibold leading-tight">Crear factura</h2>
-               <!--  <button @click="openModal(false,'create')" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    <i class="pi pi-plus mr-2"></i>
-                    <span>Crear Estatus de Factura</span>
-                </button> -->
             </div>
         </template>
 
@@ -19,7 +15,7 @@
                 </div>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <transition name="fade">
-                    <div class="grid md:lg:grid-cols-2 grid-cols-1 gap-4 w-full" v-show="showForm">
+                    <div class="grid md:lg:grid-cols-2 grid-cols-1 gap-8 w-full" v-show="showForm">
                         <div class="mb-3">
                             <div class="mb-3">
                                 <InputLabel value="Cliente: (*)" class="mb-2"/>
@@ -34,7 +30,7 @@
                             </div>
                             <div class="mb-3">
                                 <InputLabel value="Territorio:" class="mb-2"/>
-                                <input type="text" v-model="form.name" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                <input type="text" v-model="form.name" class="shadow appearance-none border rounded w-full py-2 px-3 disabled:bg-gray-200 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <InputError class="mt-2" :message="form.errors.name" />
                             </div>
                             <div class="mb-3">
@@ -66,13 +62,13 @@
                             </div>
                             <div class="grid grid-cols-2 gap-5">
                                 <div class="mb-3 w-full">
-                                    <InputLabel value="Estado:" class="mb-2"/>
-                                    <Dropdown v-model="form.invoice_status_id" filter :options="invoiceStatus" optionValue="id" optionLabel="name" placeholder="Selecciona un Estatus" class="w-full md:w-14rem border-1 border-sky-500" />
+                                    <InputLabel value="Estado:(*)" class="mb-2"/>
+                                    <Dropdown v-model="form.invoice_status_id" filter :options="invoiceStatus" optionValue="id" optionLabel="name" placeholder="Selecciona un Estado" class="w-full md:w-14rem border-1 border-sky-500" />
                                     <InputError class="mt-2" :message="form.errors.invoice_status_id" />
                                 </div>
                                 <div class="mb-3 w-full">
-                                    <InputLabel value="Tipo de Factura:" class="mb-2"/>
-                                    <Dropdown v-model="form.invoice_type_id" filter :options="invoiceTypes" optionValue="id" optionLabel="name" placeholder="Selecciona un" class="w-full md:w-14rem border-1 border-sky-500" />
+                                    <InputLabel value="Tipo de Factura:(*)" class="mb-2"/>
+                                    <Dropdown v-model="form.invoice_type_id" filter :options="invoiceTypes" optionValue="id" optionLabel="name" placeholder="Selecciona un Tipo" class="w-full md:w-14rem border-1 border-sky-500" />
                                     <InputError class="mt-2" :message="form.errors.invoice_type_id" />
                                 </div>
                             </div>

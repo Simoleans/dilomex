@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('code_invoice');
             $table->foreignId('invoice_type_id')->constrained('invoice_types');
             $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('family_id')->constrained('families');
             $table->foreignId('invoice_status_id')->constrained('invoice_statuses');
-            $table->string('territory');
-            $table->string('box_invoice');
-            $table->string('concentrated');
+            $table->string('territory')->nullable();
+            $table->string('box_invoice')->nullable();
+            $table->string('concentrated')->nullable();
             $table->string('weight')->nullable();
             $table->string('order')->nullable();
             $table->decimal('price', 22, 4)->default(0);
@@ -34,10 +35,10 @@ return new class extends Migration
             $table->date('date_concentrated');
             $table->date('date_invoice');
             $table->date('date_portage');
-            $table->date('date_date');
-            $table->string('part_invoice');
-            $table->string('volume');
-            $table->string('currency');
+            $table->date('date_date')->nullable();
+            $table->string('part_invoice')->nullable();
+            $table->string('volume')->nullable();
+            $table->string('currency')->nullable();
             $table->string('observations_invoice')->nullable();
             $table->string('barcode')->nullable();
             $table->timestamps();
